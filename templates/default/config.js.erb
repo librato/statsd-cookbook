@@ -12,5 +12,6 @@
 <%- end %>
   batch: 200,
 <%- end %>
-  port: <%= node[:statsd][:port] %>
+  port: <%= node[:statsd][:port] %>,
+  flushInterval: <%= node[:statsd][:flush_interval_msecs] %>
 }

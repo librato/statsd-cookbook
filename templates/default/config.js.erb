@@ -7,6 +7,9 @@
   graphService: "librato-metrics",
   libratoUser: "<%= node[:statsd][:librato_email] %>",
   libratoApiKey: "<%= node[:statsd][:librato_api_token] %>",
+<%- if node[:statsd][:librato_source].to_s.length > 0 %>
+  libratoSource: "<%= node[:statsd][:librato_source] %>",
+<%- end %>
   batch: 200,
 <%- end %>
   port: <%= node[:statsd][:port] %>

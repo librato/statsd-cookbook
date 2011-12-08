@@ -11,3 +11,4 @@ default[:statsd][:graphite_host] = "localhost"
 # Set these for librato-metrics graph service
 default[:statsd][:librato_email] = ''
 default[:statsd][:librato_api_token] = ''
+default[:statsd][:librato_source] = `hostname -s`.chomp

@@ -14,6 +14,11 @@ execute "checkout_statsd" do
   cwd "/usr/share"
 end
 
+execute "install dependencies" do
+  command "sudo npm install -d"
+  cwd "/usr/share/statsd"
+end
+
 directory "/etc/statsd" do
   action :create
 end

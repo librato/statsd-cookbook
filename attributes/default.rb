@@ -13,3 +13,4 @@ default[:statsd][:graphite_host] = "localhost"
 default[:statsd][:librato_email] = ''
 default[:statsd][:librato_api_token] = ''
 default[:statsd][:librato_source] = `hostname -s`.chomp
+default[:statsd][:librato_snap] = ''

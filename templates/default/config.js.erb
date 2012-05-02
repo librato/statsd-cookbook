@@ -10,6 +10,9 @@
 <%- if node[:statsd][:librato_source].to_s.length > 0 %>
   libratoSource: "<%= node[:statsd][:librato_source] %>",
 <%- end %>
+<%- if node[:statsd][:librato_snap].to_s.length > 0 %>
+  libratoSnap: <%= node[:statsd][:librato_snap] %>,
+<%- end %>
   batch: 200,
 <%- end %>
   port: <%= node[:statsd][:port] %>,

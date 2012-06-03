@@ -23,7 +23,7 @@ Depends on the cookbooks:
 
 ## Graphite settings
 
- * `graphite_enabled`: Enable the built-in Graphite backend.
+ * `graphite_enabled`: Enable the built-in Graphite backend (default true).
  * `graphite_port`: Port to talk to Graphite on (default 2003).
  * `graphite_host`: Host name of Graphite server (default localhost).
 
@@ -57,7 +57,7 @@ For example, to set your email and token for the
 ```js
     attrs[:statsd][:extra_config] => {
       'librato' => {
-        'email' => 'myemail@example.com`,
+        'email' => 'myemail@example.com',
         'token' => '1234567890ABCDEF'
       }
     }

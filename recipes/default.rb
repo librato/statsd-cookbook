@@ -8,15 +8,36 @@
 include_recipe "nodejs"
 include_recipe "git"
 
-execute "checkout_statsd" do
-  command "git clone #{node[:statsd][:repo]} statsd"
-  creates "/usr/share/statsd"
-  cwd "/usr/share"
+git "/usr/share/statsd" do
+  repository node[:statsd][:repo]
+  revision "master"
+  action :sync
 end
 
 execute "install dependencies" do
-  command "sudo npm install -d"
+  command "npm install -d"
   cwd "/usr/share/statsd"
+end
+
+backends = []
+
+if node[:statsd][:graphite_enabled]
+  backends << "./backends/graphite"
+end
+
+node[:statsd][:backends].each do |k, v|
+  if v
+    name = "#{k}@#{v}"
+  else
+    name= k
+  end
+
+  execute "install npm module #{name}" do
+    command "npm install #{name}"
+    cwd "/usr/share/statsd"
+  end
+
+  backends << k
 end
 
 directory "/etc/statsd" do
@@ -26,10 +47,19 @@ end
 template "/etc/statsd/config.js" do
   source "config.js.erb"
   mode 0644
-  variables(:port => node[:statsd][:port],
-            :graphitePort => node[:statsd][:graphite_port],
-            :graphiteHost => node[:statsd][:graphite_host]
-            )
+
+  config_hash = {
+    :flushInterval => node[:statsd][:flush_interval_msecs],
+    :port => node[:statsd][:port],
+    :backends => backends
+  }.merge(node[:statsd][:extra_config])
+
+  if node[:statsd][:graphite_enabled]
+    config_hash[:graphitePort] = node[:statsd][:graphite_port]
+    config_hash[:graphiteHost] = node[:statsd][:graphite_host]
+  end
+
+  variables(:config_hash => config_hash)
 
   notifies :restart, "service[statsd]"
 end

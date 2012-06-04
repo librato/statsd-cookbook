@@ -52,6 +52,11 @@ end
 
 service "statsd" do
   provider Chef::Provider::Service::Upstart
+
+  restart_command "stop statsd; start statsd"
+  start_command "start statsd"
+  stop_command "stop statsd"
+
   supports :restart => true, :start => true, :stop => true
 end
 

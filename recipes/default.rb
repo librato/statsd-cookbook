@@ -44,6 +44,17 @@ directory "/etc/statsd" do
   action :create
 end
 
+user "statsd" do
+  comment "statsd"
+  system true
+  shell "/bin/false"
+end
+
+service "statsd" do
+  provider Chef::Provider::Service::Upstart
+  supports :restart => true, :start => true, :stop => true
+end
+
 template "/etc/statsd/config.js" do
   source "config.js.erb"
   mode 0644
@@ -71,17 +82,15 @@ end
 template "/usr/share/statsd/scripts/start" do
   source "upstart.start.erb"
   mode 0755
+
+  notifies :restart, "service[statsd]"
 end
 
 cookbook_file "/etc/init/statsd.conf" do
   source "upstart.conf"
   mode 0644
-end
 
-user "statsd" do
-  comment "statsd"
-  system true
-  shell "/bin/false"
+  notifies :restart, "service[statsd]"
 end
 
 bash "create_log_file" do
@@ -92,6 +101,5 @@ EOH
 end
 
 service "statsd" do
-  provider Chef::Provider::Service::Upstart
   action [ :enable, :start ]
 end

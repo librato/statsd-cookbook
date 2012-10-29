@@ -17,7 +17,7 @@ end
 
 execute "install dependencies" do
   command "npm install -d"
-  cwd "/usr/share/statsd"
+  cwd node['statsd']['dir']
 end
 
 backends = []

@@ -3,4 +3,4 @@
 
 export PATH=$PATH:<%= node['statsd']['bin_path'] %>
 
-node <%= node['statsd']['path'] %>/stats.js /etc/statsd/config.js 2>&1 >> <%= node['statsd']['log_file'] %>
+node <%= node['statsd']['dir'] %>/stats.js /etc/statsd/config.js 2>&1 >> <%= node['statsd']['log_file'] %>

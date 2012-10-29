@@ -64,14 +64,14 @@ end
 
 # find and enable repeaters
 repeaters = []
-if node['statsd']['repeater_search']
+if node['statsd']['repeater']['search']
 
-  repeater_hosts = search('node', node['statsd']['repeater_search'])
+  repeater_hosts = search('node', node['statsd']['repeater']['search'])
   unless repeater_hosts.empty?
     repeater_hosts.each do |host|
       repeaters << {
-          "host" => host[node["statsd"]["repeater_bind"]],
-          "port" => node['statsd']['repeater_port']
+          "host" => host[node['statsd']['repeater']['bind']],
+          "port" => node['statsd']['repeater']['port']
       }
     end
   end
@@ -86,6 +86,7 @@ template "/etc/statsd/config.js" do
 
   config_hash = {
     'flushInterval' => node['statsd']['flush_interval_msecs'],
+    'dumpMessages' => node['statsd']['dump_messages'],
     'port' => node['statsd']['port'],
     'backends' => backends
   }.merge(node['statsd']['extra_config'])

@@ -3,6 +3,7 @@ default['statsd']['version'] = "master"
 
 default['statsd']['log_file'] = "/var/log/statsd.log"
 
+default['statsd']['dump_messages'] = false
 default['statsd']['flush_interval_msecs'] = 10000
 default['statsd']['port'] = 8125
 
@@ -37,10 +38,12 @@ default['statsd']['extra_config'] = {}
 #
 # Set a chef search string to find a repeater (ie. "roles:statsd-repeater")
 #
-default['statsd']['repeater_search'] = nil
-default['statsd']['repeater_port'] = 8125
-# valid options: ["ipaddress", "private-ipaddress"]
-default["statsd"]["repeater_bind"] = "ipaddress"
+default['statsd']['repeater'] = {
+    "search" => nil,
+    "port" => 8125,
+    # bind valid options: ["ipaddress", "private-ipaddress"]
+    "bind" => "ipaddress"
+}
 
 default["statsd"]["start_command"] = nil
 default["statsd"]["stop_command"] = nil

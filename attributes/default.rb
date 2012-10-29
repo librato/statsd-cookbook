@@ -8,13 +8,16 @@ default['statsd']['flush_interval_msecs'] = 10000
 default['statsd']['port'] = 8125
 
 # valid options: [nil, "ipaddress", "localhost", "private-ipaddress"]
+# when left nil, this will do statsd default behavior.
 default['statsd']['bind'] = nil
 
 default['statsd']['graphite'] = {}
 default['statsd']['graphite']['enabled'] = true
 default['statsd']['graphite']['port'] = 2003
+# set a chef node search string to find a graphite host (ie. "roles:data-server")
 default['statsd']['graphite']['search'] = nil
-default['statsd']['graphite']['host'] = "localhost"
+default['statsd']['graphite']['bind'] = 'localhost' # valid options: ["ipaddress", "private-ipaddress", "localhost"]
+default['statsd']['graphite']['host'] = 'localhost'
 
 #
 # Add all NPM module backends here. Each backend should be a
@@ -36,15 +39,15 @@ default['statsd']['backends'] = {}
 #
 default['statsd']['extra_config'] = {}
 
+
 #
-# Set a chef search string to find a repeater (ie. "roles:statsd-repeater")
+# Set a chef node search string to find a repeater (ie. "roles:statsd-repeater")
 #
-default['statsd']['repeater'] = {
-    "search" => nil,
-    "port" => 8125,
-    # bind valid options: ["ipaddress", "private-ipaddress"]
-    "bind" => "ipaddress"
-}
+default['statsd']['repeater'] = {}
+default["statsd"]["repeater"]["search"] = nil
+default["statsd"]["repeater"]["port"] = 8125
+default["statsd"]["repeater"]["bind"] = "ipaddress" # bind valid options: ["ipaddress", "private-ipaddress"]
+
 
 default["statsd"]["start_command"] = nil
 default["statsd"]["stop_command"] = nil

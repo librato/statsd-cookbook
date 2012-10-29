@@ -69,13 +69,8 @@ if node['statsd']['repeater']['search']
   repeater_hosts = search('node', node['statsd']['repeater']['search'])
   unless repeater_hosts.empty?
     repeater_hosts.each do |host|
-      ipaddress = if node['statsd']['repeater']['bind'] == 'private-ipaddress'
-                    ::OhaiPrivateIpaddress::Helper.private_ip(host)
-                  else
-                    host.ipaddress
-                  end
       repeaters << {
-          "host" => ipaddress,
+          "host" => ::OhaiPrivateIpaddress::Helper.ip(host, node['statsd']['repeater']['bind']),
           "port" => node['statsd']['repeater']['port']
       }
     end
@@ -96,21 +91,23 @@ template "/etc/statsd/config.js" do
     'backends' => backends
   }.merge(node['statsd']['extra_config'])
 
-  case node['statsd']['bind']
-    when "ipaddress"
-      config_hash["address"] = node["ipaddress"]
-      config_hash["mgmt_address"] = node["ipaddress"]
-    when "localhost"
-      config_hash["address"] = "127.0.0.1"
-      config_hash["mgmt_address"] = "127.0.0.1"
-    when "private-ipaddress"
-      config_hash["address"] = node["private_ipaddress"]
-      config_hash["mgmt_address"] = node["private_ipaddress"]
+  # Only bind to correct network interface
+  # if attribute is nil, statsd will bind to all interfaces
+  if node['statsd']['bind']
+    config_hash["address"] = ::OhaiPrivateIpaddress::Helper.ip(node, node['statsd']['bind'])
+    config_hash["mgmt_address"] = ::OhaiPrivateIpaddress::Helper.ip(node, node['statsd']['bind'])
   end
 
-  if node['statsd']['graphite']['enabled']
+  if node['statsd']['graphite']['search']
+    graphite_node = search('node', node['statsd']['graphite']['search']).first
+    graphite_host = ::OhaiPrivateIpaddress::Helper.ip(graphite_node, node['statsd']['graphite']['bind'])
+  else
+    graphite_host = node['statsd']['graphite']['host']
+  end
+
+  if node['statsd']['graphite']['enabled'] && graphite_host
+    config_hash['graphiteHost'] = graphite_host
     config_hash['graphitePort'] = node['statsd']['graphite']['port']
-    config_hash['graphiteHost'] = node['statsd']['graphite']['host']
   end
 
   unless repeaters.empty?

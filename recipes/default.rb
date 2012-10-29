@@ -103,9 +103,9 @@ template "/etc/statsd/config.js" do
       config_hash["mgmt_address"] = node["private_ipaddress"]
   end
 
-  if node['statsd']['graphite_enabled']
-    config_hash['graphitePort'] = node['statsd']['graphite_port']
-    config_hash['graphiteHost'] = node['statsd']['graphite_host']
+  if node['statsd']['graphite']['enabled']
+    config_hash['graphitePort'] = node['statsd']['graphite']['port']
+    config_hash['graphiteHost'] = node['statsd']['graphite']['host']
   end
 
   unless repeaters.empty?

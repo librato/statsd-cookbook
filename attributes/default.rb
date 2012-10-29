@@ -10,10 +10,11 @@ default['statsd']['port'] = 8125
 # valid options: [nil, "ipaddress", "localhost", "private-ipaddress"]
 default['statsd']['bind'] = nil
 
-# Is the graphite backend enabled?
-default['statsd']['graphite_enabled'] = true
-default['statsd']['graphite_port'] = 2003
-default['statsd']['graphite_host'] = "localhost"
+default['statsd']['graphite'] = {}
+default['statsd']['graphite']['enabled'] = true
+default['statsd']['graphite']['port'] = 2003
+default['statsd']['graphite']['search'] = nil
+default['statsd']['graphite']['host'] = "localhost"
 
 #
 # Add all NPM module backends here. Each backend should be a

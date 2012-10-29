@@ -69,8 +69,13 @@ if node['statsd']['repeater']['search']
   repeater_hosts = search('node', node['statsd']['repeater']['search'])
   unless repeater_hosts.empty?
     repeater_hosts.each do |host|
+      ipaddress = if node['statsd']['repeater']['bind'] == 'private-ipaddress'
+                    ::OhaiPrivateIpaddress::Helper.private_ip(host)
+                  else
+                    host.ipaddress
+                  end
       repeaters << {
-          "host" => host[node['statsd']['repeater']['bind']],
+          "host" => ipaddress,
           "port" => node['statsd']['repeater']['port']
       }
     end

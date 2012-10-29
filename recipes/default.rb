@@ -91,7 +91,7 @@ template "/etc/statsd/config.js" do
     'backends' => backends
   }.merge(node['statsd']['extra_config'])
 
-  case node['status']['bind']
+  case node['statsd']['bind']
     when "ipaddress"
       config_hash["address"] = node["ipaddress"]
       config_hash["mgmt_address"] = node["ipaddress"]

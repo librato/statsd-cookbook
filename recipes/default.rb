@@ -65,14 +65,17 @@ end
 # find and enable repeaters
 repeaters = []
 if node['statsd']['repeater']['search']
-
-  repeater_hosts = search('node', node['statsd']['repeater']['search'])
-  unless repeater_hosts.empty?
-    repeater_hosts.each do |host|
-      repeaters << {
-          "host" => ::OhaiPrivateIpaddress::Helper.ip(host, node['statsd']['repeater']['bind']),
-          "port" => node['statsd']['repeater']['port']
-      }
+  if Chef::Config[:solo]
+    Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
+  else
+    repeater_hosts = search('node', node['statsd']['repeater']['search'])
+    unless repeater_hosts.empty?
+      repeater_hosts.each do |host|
+        repeaters << {
+            "host" => ::OhaiPrivateIpaddress::Helper.ip(host, node['statsd']['repeater']['bind']),
+            "port" => node['statsd']['repeater']['port']
+        }
+      end
     end
   end
 
@@ -99,8 +102,12 @@ template "/etc/statsd/config.js" do
   end
 
   if node['statsd']['graphite']['search']
-    graphite_node = search('node', node['statsd']['graphite']['search']).first
-    graphite_host = ::OhaiPrivateIpaddress::Helper.ip(graphite_node, node['statsd']['graphite']['bind'])
+    if Chef::Config[:solo]
+      Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
+    else
+      graphite_node = search('node', node['statsd']['graphite']['search']).first
+      graphite_host = ::OhaiPrivateIpaddress::Helper.ip(graphite_node, node['statsd']['graphite']['bind'])
+    end
   else
     graphite_host = node['statsd']['graphite']['host']
   end

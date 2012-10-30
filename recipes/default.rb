@@ -22,7 +22,7 @@ end
 
 backends = []
 
-if node['statsd']['graphite_enabled']
+if node['statsd']['graphite']['enabled']
   backends << "./backends/graphite"
 end
 

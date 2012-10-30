@@ -8,5 +8,8 @@ version          "0.1.1"
 depends "build-essential"
 depends "git"
 depends "nodejs", ">= 0.5.2"
+depends "smf"
+depends "ohai-private-ipaddress"
 
 supports "ubuntu"
+supports "smartos"

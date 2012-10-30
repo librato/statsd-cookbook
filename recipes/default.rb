@@ -118,7 +118,7 @@ template "/etc/statsd/config.js" do
   end
 
   unless repeaters.empty?
-    config_hash["repeaters"] = repeaters
+    config_hash["repeater"] = repeaters
   end
 
   variables(:config_hash => config_hash)

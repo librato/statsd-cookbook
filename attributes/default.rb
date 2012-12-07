@@ -1,4 +1,5 @@
 default[:statsd][:repo] = "git://github.com/etsy/statsd.git"
+default[:statsd][:revision] = "master"
 
 default[:statsd][:log_file] = "/var/log/statsd.log"
 

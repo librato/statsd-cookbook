@@ -123,7 +123,12 @@ template "/etc/statsd/config.js" do
 
   variables(:config_hash => config_hash)
 
-  notifies :restart, resources(:service => "statsd")
+  # As we are using ruby v1.8.7 on metrics, Hashes are not sorted.
+  # Because of that the config.js file is different all the time (i.e. order)
+  # and statsd restarts every time chef-client runs
+  # Until we upgrade ruby on metrics, as a quick solution, we are disabling
+  # restarts.
+  #notifies :restart, resources(:service => "statsd")
 end
 
 

@@ -73,7 +73,8 @@ if node['statsd']['repeater']['search']
       repeater_hosts.each do |host|
         repeaters << {
             "host" => ::OhaiPrivateIpaddress::Helper.ip(host, node['statsd']['repeater']['bind']),
-            "port" => node['statsd']['repeater']['port']
+            "port" => node['statsd']['repeater']['port'],
+            "on" => node['statsd']['repeater']['on']
         }
       end
     end

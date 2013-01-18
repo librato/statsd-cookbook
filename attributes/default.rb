@@ -47,6 +47,7 @@ default['statsd']['repeater'] = {}
 default["statsd"]["repeater"]["search"] = nil
 default["statsd"]["repeater"]["port"] = 8125
 default["statsd"]["repeater"]["bind"] = "ipaddress" # bind valid options: ["ipaddress", "private-ipaddress"]
+default["statsd"]["repeater"]["on"] = "packet"
 
 
 default["statsd"]["start_command"] = nil

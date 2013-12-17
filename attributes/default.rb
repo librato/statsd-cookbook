@@ -29,4 +29,6 @@ default[:statsd][:backends] = {}
 #
 # Add any additional backend configuration here.
 #
-default[:statsd][:extra_config] = {}
+default[:statsd][:extra_config] = {
+  'sourceRegex' => '/^([^-]+)--/'
+}

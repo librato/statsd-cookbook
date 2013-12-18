@@ -10,7 +10,7 @@ include_recipe "git"
 
 git "/usr/share/statsd" do
   repository node[:statsd][:repo]
-  revision node[:statsd][:revision]
+  revision node[:statsd][:version]
   action :sync
 end
 

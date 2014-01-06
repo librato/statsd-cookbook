@@ -1,0 +1,34 @@
+{
+  "name": ".",
+  "description": "Installs/Configures statsd",
+  "long_description": "# DESCRIPTION\n\nChef cookbook to install [Etsy's\nStatsD](https://github.com/etsy/statsd) daemon. Supports the new\npluggable backend modules.\n\n# REQUIREMENTS\n\nDepends on the cookbooks:\n\n * git\n * nodejs\n\n# ATTRIBUTES\n\n## Basic attributes\n\n * `repo`: Location of statsd repo (defaults to Etsy's).\n * `log_file`: Where to log output (defaults to:\n    `/var/log/statsd.log`).\n * `flush_interval_msecs`: Flush interval in msecs (default 10000).\n * `port`: Port to listen for UDP stats (default 8125).\n\n## Graphite settings\n\n * `graphite_enabled`: Enable the built-in Graphite backend (default true).\n * `graphite_port`: Port to talk to Graphite on (default 2003).\n * `graphite_host`: Host name of Graphite server (default localhost).\n\n## Adding backends\n\nSet the attribute `backends` to a hash of statsd NPM module\nbackends. The hash key is the name of the NPM module, while the hash\nvalue is the version of the NPM module to install (or null for latest\nversion).\n\nFor example, to use version 0.0.1 of [statsd-librato-backend][]:\n\n    attrs[:statsd][:backends] = { 'statsd-librato-backend' => '0.0.1' }\n\nTo use the latest version of statsd-librato-backend:\n\n    attrs[:statsd][:backends] = { 'statsd-librato-backend' => nil }\n\nThe cookbook will install each backend module under the statsd\ndirectory and add it to the list of backends loaded in the\nconfiguration file.\n\n### Extra backend configuration\n\nSet the attribute `extra_config` to any additional configuration\noptions that should be included in the StatsD configuration file.\n\nFor example, to set your email and token for the\n[statsd-librato-backend][] backend module, use the following:\n\n```js\n    attrs[:statsd][:extra_config] => {\n      'librato' => {\n        'email' => 'myemail@example.com',\n        'token' => '1234567890ABCDEF'\n      }\n    }\n```\n\n# USAGE\n\n\n[statsd-librato-backend]: https://github.com/librato/statsd-librato-backend\n",
+  "maintainer": "Mike Heffner",
+  "maintainer_email": "mike@librato.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+    "build-essential": ">= 0.0.0",
+    "git": ">= 0.0.0",
+    "nodejs": ">= 0.5.2"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "librato-statsd": "Install and configure statsd"
+  },
+  "version": "0.1.2"
+}

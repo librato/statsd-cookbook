@@ -63,8 +63,3 @@ For example, to set your email and token for the
       }
     }
 ```
-
-# USAGE
-
-
-[statsd-librato-backend]: https://github.com/librato/statsd-librato-backend

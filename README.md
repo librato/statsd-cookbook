@@ -15,17 +15,18 @@ Depends on the cookbooks:
 
 ## Basic attributes
 
- * `repo`: Location of statsd repo (defaults to Etsy's).
- * `log_file`: Where to log output (defaults to:
-    `/var/log/statsd.log`).
- * `flush_interval_msecs`: Flush interval in msecs (default 10000).
- * `port`: Port to listen for UDP stats (default 8125).
+ * `repo`: Location of statsd repo (default: `git://github.com/etsy/statsd.git`).
+ * `revision`: Revision of the statsd repo being installed (default: `master``).
+ * `log_file`: Where to log output (default: `/var/log/statsd.log`).
+ * `flush_interval_msecs`: Flush interval in msecs (default: `10000`).
+ * `port`: Port to listen for UDP stats (default: `8125`).
+ * `version`: Version of statsd being installed (default: `0.7.0`)
 
 ## Graphite settings
 
- * `graphite_enabled`: Enable the built-in Graphite backend (default true).
- * `graphite_port`: Port to talk to Graphite on (default 2003).
- * `graphite_host`: Host name of Graphite server (default localhost).
+ * `graphite_enabled`: Enable the built-in Graphite backend (default: `true`).
+ * `graphite_port`: Port to talk to Graphite on (default: `2003`).
+ * `graphite_host`: Host name of Graphite server (default: `localhost`).
 
 ## Adding backends
 
@@ -62,8 +63,3 @@ For example, to set your email and token for the
       }
     }
 ```
-
-# USAGE
-
-
-[statsd-librato-backend]: https://github.com/librato/statsd-librato-backend

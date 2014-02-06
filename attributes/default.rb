@@ -1,6 +1,6 @@
 default[:statsd][:repo] = "git://github.com/etsy/statsd.git"
 default[:statsd][:revision] = "master"
-default[:statsd][:version] = "0.7.0"
+default[:statsd][:version] = "v0.7.0"
 
 default[:statsd][:log_file] = "/var/log/statsd.log"
 

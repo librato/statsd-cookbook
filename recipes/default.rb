@@ -67,6 +67,7 @@ template "/etc/statsd/config.js" do
   config_hash = {
     :flushInterval => node[:statsd][:flush_interval_msecs],
     :port => node[:statsd][:port],
+    :deleteIdleStats => node[:statsd][:delete_idle_stats],
     :backends => backends
   }.merge(node[:statsd][:extra_config])
 

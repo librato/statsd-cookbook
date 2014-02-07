@@ -7,6 +7,9 @@ default[:statsd][:log_file] = "/var/log/statsd.log"
 default[:statsd][:flush_interval_msecs] = 10000
 default[:statsd][:port] = 8125
 
+# Do we automatically delete idle stats?
+default[:statsd][:delete_idle_stats] = false
+
 # Is the graphite backend enabled?
 default[:statsd][:graphite_enabled] = true
 default[:statsd][:graphite_port] = 2003

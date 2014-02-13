@@ -20,7 +20,7 @@ Depends on the cookbooks:
  * `log_file`: Where to log output (default: `/var/log/statsd.log`).
  * `flush_interval_msecs`: Flush interval in msecs (default: `10000`).
  * `port`: Port to listen for UDP stats (default: `8125`).
- * `version`: Version of statsd being installed (default: `0.7.0`)
+ * `version`: Version of statsd being installed (default: `0.7.1`)
 
 ## Graphite settings
 

@@ -70,6 +70,8 @@ end
 
 template "#{node['statsd']['config_dir']}/config.js" do
   source 'config.js.erb'
+  owner node['statsd']['user']
+  group node['statsd']['group']
   mode 0644
 
   config_hash = {
@@ -87,23 +89,13 @@ template "#{node['statsd']['config_dir']}/config.js" do
 
   config_hash = config_hash.merge(node['statsd']['extra_config'])
   variables config_hash: config_hash
-  notifies :restart, 'service[statsd]'
-end
-
-directory "#{node['statsd']['path']}/scripts" do
-  action :create
-end
-
-template "#{node['statsd']['path']}/scripts/start" do
-  source 'upstart.start.erb'
-  mode 0755
-  notifies :restart, 'service[statsd]'
+  notifies :restart, 'service[statsd]', :delayed
 end
 
 template '/etc/init/statsd.conf' do
   source 'upstart.conf.erb'
   mode 0644
-  notifies :restart, 'service[statsd]'
+  notifies :restart, 'service[statsd]', :delayed
 end
 
 file "#{node['statsd']['log_file']}" do
@@ -117,8 +109,4 @@ directory "#{node['statsd']['pid_dir']}" do
   owner node['statsd']['user']
   group node['statsd']['group']
   mode 0755
-end
-
-service 'statsd' do
-  action [:enable, :start]
 end

@@ -1,0 +1,13 @@
+description "statsd"
+author      "Librato"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+setuid statsd
+chdir /usr/share/statsd
+
+env SL_NAME=statsd
+
+respawn
+exec node /usr/share/statsd/stats.js /etc/statsd/config.js 2>&1 >> <%= node[:statsd][:log_file] %>

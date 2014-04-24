@@ -78,7 +78,7 @@ template "/etc/statsd/config.js" do
 
   variables(:config_hash => config_hash)
 
-  notifies :restart, resources(:service => "statsd")
+  notifies :restart, "service[statsd]"
 end
 
 directory "/usr/share/statsd/scripts" do
@@ -89,14 +89,14 @@ template "/usr/share/statsd/scripts/start" do
   source "upstart.start.erb"
   mode 0755
 
-  notifies :restart, resources(:service => "statsd")
+  notifies :restart, "service[statsd]"
 end
 
 cookbook_file "/etc/init/statsd.conf" do
   source "upstart.conf"
   mode 0644
 
-  notifies :restart, resources(:service => "statsd")
+  notifies :restart, "service[statsd]"
 end
 
 bash "create_log_file" do

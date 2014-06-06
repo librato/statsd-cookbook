@@ -92,20 +92,20 @@ template "/usr/share/statsd/scripts/start" do
   notifies :restart, "service[statsd]"
 end
 
-cookbook_file "/etc/init/statsd.conf" do
-  source "upstart.conf"
+template "/etc/init/statsd.conf" do
+  source "upstart.conf.erb"
   mode 0644
 
   notifies :restart, "service[statsd]"
 end
 
-bash "create_log_file" do
-  code <<EOH
-touch #{node[:statsd][:log_file]} && chown statsd #{node[:statsd][:log_file]}
-EOH
+file "#{node[:statsd][:log_file]}" do
+  owner node[:statsd][:user]
+  group node[:statsd][:group]
+  action :touch
   not_if {File.exist?(node[:statsd][:log_file])}
 end
-
+  
 service "statsd" do
   action [ :enable, :start ]
 end

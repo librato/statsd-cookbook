@@ -44,7 +44,7 @@ directory "/etc/statsd" do
   action :create
 end
 
-user "statsd" do
+user node[:statsd][:user] do
   comment "statsd"
   system true
   shell "/bin/false"

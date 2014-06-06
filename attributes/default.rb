@@ -4,8 +4,8 @@ default[:statsd][:version] = "v0.7.1"
 
 default[:statsd][:log_file] = "/var/log/statsd.log"
 
-default[:statsd][:user] = "www-data"
-default[:statsd][:group] = "logs"
+default[:statsd][:user] = "statsd"
+default[:statsd][:group] = "statsd"
 
 default[:statsd][:flush_interval_msecs] = 10000
 default[:statsd][:port] = 8125

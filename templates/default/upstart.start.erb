@@ -2,5 +2,7 @@
 # Called by Upstart, /etc/init/statsd.conf
 
 export PATH=$PATH:/usr/local/bin
+pidfile="<%= node[:statsd][:pid_file] %>"
 
+echo $$ > $pidfile
 node /usr/share/statsd/stats.js /etc/statsd/config.js 2>&1 >> <%= node[:statsd][:log_file] %>

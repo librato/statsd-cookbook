@@ -105,6 +105,12 @@ file "#{node[:statsd][:log_file]}" do
   action :touch
   not_if {File.exist?(node[:statsd][:log_file])}
 end
+
+directory "#{node[:statsd][:pid_dir]}" do 
+  owner node[:statsd][:user]
+  group node[:statsd][:group]
+  mode 0755
+end  
   
 service "statsd" do
   action [ :enable, :start ]

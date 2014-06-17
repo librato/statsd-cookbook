@@ -68,7 +68,8 @@ template "/etc/statsd/config.js" do
     :flushInterval => node[:statsd][:flush_interval_msecs],
     :port => node[:statsd][:port],
     :deleteIdleStats => node[:statsd][:delete_idle_stats],
-    :backends => backends
+    :backends => backends,
+    :graphite => { :legacyNamespace => node[:statsd][:legacyNamespace] }
   }.merge(node[:statsd][:extra_config])
 
   if node[:statsd][:graphite_enabled]

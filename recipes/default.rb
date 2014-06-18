@@ -69,9 +69,11 @@ template "/etc/statsd/config.js" do
     :port => node[:statsd][:port],
     :deleteIdleStats => node[:statsd][:delete_idle_stats],
     :backends => backends
+
   }.merge(node[:statsd][:extra_config])
 
   if node[:statsd][:graphite_enabled]
+    config_hash[:graphite] = { :legacyNamespace => node[:statsd][:legacyNamespace] }
     config_hash[:graphitePort] = node[:statsd][:graphite_port]
     config_hash[:graphiteHost] = node[:statsd][:graphite_host]
   end

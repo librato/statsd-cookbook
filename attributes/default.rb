@@ -35,7 +35,17 @@ default[:statsd][:graphite_host] = "localhost"
 #
 default[:statsd][:backends] = {}
 
+# 
+# Starting with v 0.50 default namespace conventions for StatsD have changed.
+# The 'new' default is legacyNamespace = True, though this may cause confusion
+# for earlier users.  Reference: https://github.com/etsy/statsd/blob/master/docs/namespacing.md
+# 
+default[:statsd][:legacyNamespace] = true
+
 #
 # Add any additional backend configuration here.
 #
 default[:statsd][:extra_config] = {}
+
+
+

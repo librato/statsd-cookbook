@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-default['statsd']['repo'] = 'git://github.com/etsy/statsd.git'
+default['statsd']['repo'] = 'https://github.com/etsy/statsd.git'
 default['statsd']['version'] = 'v0.7.1'
 
 default['statsd']['log_file'] = '/var/log/statsd.log'

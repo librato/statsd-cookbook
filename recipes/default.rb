@@ -98,14 +98,14 @@ template '/etc/init/statsd.conf' do
   notifies :restart, 'service[statsd]', :delayed
 end
 
-file "#{node['statsd']['log_file']}" do
+file node['statsd']['log_file'] do
   owner node['statsd']['user']
   group node['statsd']['group']
   action :touch
   not_if { File.exist?(node['statsd']['log_file']) }
 end
 
-directory "#{node['statsd']['pid_dir']}" do
+directory node['statsd']['pid_dir'] do
   owner node['statsd']['user']
   group node['statsd']['group']
   mode 0755

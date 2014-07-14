@@ -1,12 +1,28 @@
-description "statsd"
+# statsd - Network daemon for aggregating statistics
+#
+# This is a network service that receives metric data via UDP from other
+# applications. It aggregates this data and flushes it to a storage backend
+# (typically Graphite) at regular intervals.
+#
+description "Network daemon for aggregating statistics"
 author      "Librato"
 
-start on runlevel [2345]
-stop on runlevel [!2345]
+start on (local-filesystems and net-device-up IFACE!=lo)
 
 setuid <%= node['statsd']['user'] %>
-chdir <%= node['statsd']['path'] %>
+setgid <%= node['statsd']['group'] %>
 
 respawn
+respawn limit 10 5
 
-exec node <%= node['statsd']['path'] %>/stats.js <%= node['statsd']['config_dir'] %>/config.js 2>&1 >> <%= node['statsd']['log_file'] %>
+chdir <%= node['statsd']['path'] %>
+
+pre-start script
+    NODE_BIN=$(which nodejs || which node)
+    [ -n $NODE_BIN ] || { stop; exit 0; }
+end script
+
+script
+    NODE_BIN=$(which nodejs || which node)
+    $NODE_BIN stats.js <%= node['statsd']['config_dir'] %>/config.js 2>&1 >> <%= node['statsd']['log_file'] %>
+end script

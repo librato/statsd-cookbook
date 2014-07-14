@@ -101,8 +101,7 @@ end
 file node['statsd']['log_file'] do
   owner node['statsd']['user']
   group node['statsd']['group']
-  action :touch
-  not_if { File.exist?(node['statsd']['log_file']) }
+  action :create_if_missing
 end
 
 directory node['statsd']['pid_dir'] do

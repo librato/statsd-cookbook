@@ -16,11 +16,10 @@ Depends on the cookbooks:
 ## Basic attributes
 
  * `repo`: Location of statsd repo (default: `git://github.com/etsy/statsd.git`).
- * `revision`: Revision of the statsd repo being installed (default: `master``).
+ * `version`: Revision of the statsd repo being installed (default: `v0.7.1``).
  * `log_file`: Where to log output (default: `/var/log/statsd.log`).
  * `flush_interval_msecs`: Flush interval in msecs (default: `10000`).
  * `port`: Port to listen for UDP stats (default: `8125`).
- * `version`: Version of statsd being installed (default: `0.7.1`)
 
 ## Graphite settings
 

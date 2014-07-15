@@ -1,1 +1,54 @@
-metadata.json
+*.gem
+*.rbc
+.bundle
+.config
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+
+# Compiled Python files
+*.pyc
+
+# Folder view configuration files
+.DS_Store
+Desktop.ini
+
+# Thumbnail cache files
+._*
+Thumbs.db
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
+
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
+
+# Vagrant
+Vagrantfile
+.vagrant
+
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
+
+Berksfile.lock
+.kitchen
+
+*~
+*#
+\#*#
+.#*
+.*.sw[a-z]
+*.un~
+/cookbooks

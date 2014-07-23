@@ -60,12 +60,22 @@ user node['statsd']['user'] do
   shell '/bin/false'
 end
 
+service_status = node['statsd']['service'].map do |a, s|
+  case a.to_s
+  when 'enable'
+    s == false ? :disable : :enable
+  when 'start'
+    s == false ? :stop : :start
+  end
+end
+
 service 'statsd' do
   provider Chef::Provider::Service::Upstart
   restart_command 'stop statsd; start statsd'
   start_command 'start statsd'
   stop_command 'stop statsd'
   supports restart: true, start: true, stop: true
+  action service_status
 end
 
 template "#{node['statsd']['config_dir']}/config.js" do

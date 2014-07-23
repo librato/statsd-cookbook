@@ -34,7 +34,7 @@ end
 backends = []
 
 if node['statsd']['graphite_enabled']
-  backends << "./backends/graphite"
+  backends << './backends/graphite'
 end
 
 node['statsd']['backends'].each do |k, v|

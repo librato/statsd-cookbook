@@ -51,17 +51,6 @@ user "statsd" do
   shell "/bin/false"
 end
 
-# register service
-service "statsd" do
-  provider node['statsd']['provider']
-
-  restart_command node['statsd']['restart_command'] if node['statsd']['restart_command']
-  start_command node['statsd']['start_command'] if node['statsd']['start_command']
-  stop_command node['statsd']['stop_command'] if node['statsd']['stop_command']
-
-  supports :restart => true, :start => true, :stop => true
-end
-
 # find and enable repeaters
 repeaters = []
 if node['statsd']['repeater']['search']
@@ -143,14 +132,14 @@ case node['statsd']['init_style']
       source "upstart.start.erb"
       mode 0755
 
-      notifies :restart, resources(:service => "statsd")
+      notifies :restart, 'service[statsd]'
     end
 
     cookbook_file "/etc/init/statsd.conf" do
       source "upstart.conf"
       mode 0644
 
-      notifies :restart, resources(:service => "statsd")
+      notifies :restart, 'service[statsd]'
     end
   when 'smf'
     include_recipe "smf"
@@ -164,6 +153,7 @@ case node['statsd']['init_style']
       environment(
           "PATH" => node['statsd']['bin_path']
       )
+      notifies :restart, 'service[statsd]'
     end
 end
 
@@ -174,6 +164,14 @@ EOH
   not_if {File.exist?(node['statsd']['log_file'])}
 end
 
+# register service
 service "statsd" do
-  action [ :enable, :start ]
+  provider node['statsd']['provider']
+
+  restart_command node['statsd']['restart_command'] if node['statsd']['restart_command']
+  start_command node['statsd']['start_command'] if node['statsd']['start_command']
+  stop_command node['statsd']['stop_command'] if node['statsd']['stop_command']
+
+  supports :restart => true, :start => true, :stop => true
 end
+

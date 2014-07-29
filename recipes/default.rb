@@ -69,6 +69,12 @@ service_status = node['statsd']['service'].map do |a, s|
   end
 end
 
+template '/etc/init/statsd.conf' do
+  source 'upstart.conf.erb'
+  mode 0644
+  notifies :restart, 'service[statsd]', :delayed
+end
+
 service 'statsd' do
   provider Chef::Provider::Service::Upstart
   restart_command 'stop statsd; start statsd'
@@ -99,12 +105,6 @@ template "#{node['statsd']['config_dir']}/config.js" do
 
   config_hash = config_hash.merge(node['statsd']['extra_config'])
   variables config_hash: config_hash
-  notifies :restart, 'service[statsd]', :delayed
-end
-
-template '/etc/init/statsd.conf' do
-  source 'upstart.conf.erb'
-  mode 0644
   notifies :restart, 'service[statsd]', :delayed
 end
 

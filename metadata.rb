@@ -11,3 +11,4 @@ depends 'git'
 depends 'nodejs', '>= 0.5.2'
 
 supports 'ubuntu'
+supports 'centos', '~> 6.0'

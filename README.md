@@ -62,3 +62,15 @@ For example, to set your email and token for the
       }
     }
 ```
+
+# Test
+
+To run unit tests using rspec you can run:
+```bash
+$ bundle exec rspec
+```
+
+To run integration tests using kitchen-ci you can run:
+```bash
+$ bundle exec kitchen test
+```

@@ -77,6 +77,8 @@ GEM
     hitimes (1.2.2)
     ipaddress (0.8.0)
     json (1.8.1)
+    kitchen-vagrant (0.15.0)
+      test-kitchen (~> 1.0)
     method_source (0.8.2)
     mime-types (1.25.1)
     minitar (0.5.4)
@@ -88,6 +90,8 @@ GEM
     mixlib-shellout (1.4.0)
     multipart-post (2.0.0)
     net-http-persistent (2.9.4)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
@@ -146,6 +150,7 @@ GEM
     rspec-mocks (3.0.3)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.3)
+    safe_yaml (1.0.3)
     sawyer (0.5.4)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
@@ -155,6 +160,12 @@ GEM
       dep_selector (~> 1.0)
       semverse (~> 1.1)
     systemu (2.5.2)
+    test-kitchen (1.2.1)
+      mixlib-shellout (~> 1.2)
+      net-scp (~> 1.1)
+      net-ssh (~> 2.7)
+      safe_yaml (~> 1.0)
+      thor (~> 0.18)
     thor (0.19.1)
     timers (4.0.0)
       hitimes
@@ -170,3 +181,5 @@ DEPENDENCIES
   berkshelf (~> 3.0)
   chef
   chefspec
+  kitchen-vagrant
+  test-kitchen

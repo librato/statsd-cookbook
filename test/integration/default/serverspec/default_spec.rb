@@ -1,7 +1,8 @@
 require 'serverspec'
 
 include Serverspec::Helper::Exec
-include Serverspec::Helper::DetectOS
+# Force Debian to properly detect statsd service for upstart on CentOS 6.
+include Serverspec::Helper::Debian
 
 RSpec.configure do |c|
   c.before :all do

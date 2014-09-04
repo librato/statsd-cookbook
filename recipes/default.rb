@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/mixin/deep_merge'
 
 include_recipe 'nodejs'
 include_recipe 'git'
@@ -98,12 +99,12 @@ template "#{node['statsd']['config_dir']}/config.js" do
   }
 
   if node['statsd']['graphite_enabled']
-    config_hash[:graphite] = { legacyNamespace: node['statsd']['legacyNamespace'] }
-    config_hash[:graphitePort] = node['statsd']['graphite_port']
-    config_hash[:graphiteHost] = node['statsd']['graphite_host']
+    config_hash['graphite'] = { 'legacyNamespace' => node['statsd']['legacyNamespace'] }
+    config_hash['graphitePort'] = node['statsd']['graphite_port']
+    config_hash['graphiteHost'] = node['statsd']['graphite_host']
   end
 
-  config_hash = config_hash.merge(node['statsd']['extra_config'])
+  Chef::Mixin::DeepMerge.deep_merge!(node['statsd']['extra_config'], config_hash)
   variables config_hash: config_hash
   notifies :restart, 'service[statsd]', :delayed
 end

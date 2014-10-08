@@ -38,6 +38,10 @@ if node['statsd']['graphite_enabled']
   backends << './backends/graphite'
 end
 
+if node['statsd']['console_enabled']
+  backends << './backends/console'
+end
+
 node['statsd']['backends'].each do |k, v|
   if v
     name = "#{k}@#{v}"

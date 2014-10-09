@@ -40,6 +40,9 @@ default['statsd']['graphite_enabled'] = true
 default['statsd']['graphite_port'] = 2003
 default['statsd']['graphite_host'] = 'localhost'
 
+# Enable console output
+default['statsd']['console_enabled'] = false
+
 default['statsd']['service'] = {
   enable: true,
   start: true

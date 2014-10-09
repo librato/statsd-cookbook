@@ -18,7 +18,7 @@
 #
 
 default['statsd']['repo'] = 'https://github.com/etsy/statsd.git'
-default['statsd']['version'] = 'v0.7.1'
+default['statsd']['version'] = 'v0.7.2'
 
 default['statsd']['log_file'] = '/var/log/statsd.log'
 default['statsd']['config_dir'] = '/etc/statsd'

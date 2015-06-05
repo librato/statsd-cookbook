@@ -23,6 +23,7 @@ pre-start script
 end script
 
 script
+    echo $$ > <%= node['statsd']['pid_file'] %>
     NODE_BIN=$(which nodejs || which node)
     $NODE_BIN stats.js <%= node['statsd']['config_dir'] %>/config.js 2>&1 >> <%= node['statsd']['log_file'] %>
 end script

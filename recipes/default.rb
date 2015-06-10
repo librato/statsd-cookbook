@@ -74,17 +74,22 @@ service_status = node['statsd']['service'].map do |a, s|
   end
 end
 
-template '/etc/init/statsd.conf' do
-  source 'upstart.conf.erb'
-  mode 0644
-  notifies :restart, 'service[statsd]', :delayed
+case node["platform"]
+when "ubuntu"
+  template '/etc/init/statsd.conf' do
+    source 'upstart.conf.erb'
+    mode 0644
+    notifies :restart, 'service[statsd]', :delayed
+  end
+when "debian"
+  template '/etc/init.d/statsd' do
+    source 'vsysinit.sh.erb'
+    mode 0777
+    notifies :restart, 'service[statsd]', :delayed
+  end
 end
 
-service 'statsd' do
-  provider Chef::Provider::Service::Upstart
-  restart_command 'stop statsd; start statsd'
-  start_command 'start statsd'
-  stop_command 'stop statsd'
+service "statsd" do
   supports restart: true, start: true, stop: true
   action service_status
 end

@@ -1,20 +1,16 @@
 require 'serverspec'
+set :backend, :exec
 
-include Serverspec::Helper::Exec
 # Force Debian to properly detect statsd service for upstart on CentOS 6.
-include Serverspec::Helper::Debian
+#include Serverspec::Helper::Debian
 
-RSpec.configure do |c|
-  c.before :all do
-    c.path = '/sbin:/usr/sbin'
-  end
-end
+# RSpec.configure do |c|
+#   c.before :all do
+#     c.path = '/sbin:/usr/sbin'
+#   end
+# end
 
 describe 'statsd service' do
-  it 'should be configured for upstart' do
-    expect(file('/etc/init/statsd.conf')).to be_file
-  end
-
   it 'should be enabled' do
     expect(service('statsd')).to be_enabled
   end

@@ -22,6 +22,10 @@ pre-start script
     [ -n $NODE_BIN ] || { stop; exit 0; }
 end script
 
+post-stop script
+    rm -f <%= node['statsd']['pid_file'] %>
+end script
+
 script
     echo $$ > <%= node['statsd']['pid_file'] %>
     NODE_BIN=$(which nodejs || which node)

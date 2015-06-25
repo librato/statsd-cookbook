@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: statsd
-# Recipe:: default
+# Recipe:: service
 #
 # Copyright 2014, Librato, Inc.
 #
@@ -17,8 +17,19 @@
 # limitations under the License.
 #
 
-# install the service
-include_recipe "statsd::install"
+# place the upstart script
+template '/etc/init/statsd.conf' do
+  source 'upstart.conf.erb'
+  mode 0644
+  notifies :restart, 'service[statsd]', :delayed
+end
 
-# configure the service
-include_recipe "statsd::configure"
+# define the service resource
+service 'statsd' do
+  provider Chef::Provider::Service::Upstart
+  restart_command 'stop statsd; start statsd'
+  start_command 'start statsd'
+  stop_command 'stop statsd'
+  supports restart: true, start: true, stop: true
+  action service_status
+end

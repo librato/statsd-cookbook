@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: statsd
-# Recipe:: default
+# Recipe:: install
 #
 # Copyright 2014, Librato, Inc.
 #
@@ -17,8 +17,16 @@
 # limitations under the License.
 #
 
-# install the service
-include_recipe "statsd::install"
+include_recipe 'nodejs'
+include_recipe 'git'
 
-# configure the service
-include_recipe "statsd::configure"
+git node['statsd']['path'] do
+  repository node['statsd']['repo']
+  revision node['statsd']['version']
+  action :sync
+end
+
+execute 'install dependencies' do
+  command 'npm install -d'
+  cwd node['statsd']['path']
+end

@@ -19,9 +19,6 @@
 
 require 'chef/mixin/deep_merge'
 
-# include the service resource
-include_recipe "statsd::service"
-
 backends = []
 
 if node['statsd']['graphite_enabled']
@@ -90,3 +87,6 @@ directory node['statsd']['pid_dir'] do
   group node['statsd']['group']
   mode 0755
 end
+
+# include the service resource
+include_recipe "statsd::service"

@@ -55,15 +55,6 @@ user node['statsd']['user'] do
   shell '/bin/false'
 end
 
-service_status = node['statsd']['service'].map do |a, s|
-  case a.to_s
-  when 'enable'
-    s == false ? :disable : :enable
-  when 'start'
-    s == false ? :stop : :start
-  end
-end
-
 template "#{node['statsd']['config_dir']}/config.js" do
   source 'config.js.erb'
   owner node['statsd']['user']

@@ -17,6 +17,15 @@
 # limitations under the License.
 #
 
+service_status = node['statsd']['service'].map do |a, s|
+  case a.to_s
+  when 'enable'
+    s == false ? :disable : :enable
+  when 'start'
+    s == false ? :stop : :start
+  end
+end
+
 # place the upstart script
 template '/etc/init/statsd.conf' do
   source 'upstart.conf.erb'

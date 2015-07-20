@@ -9,6 +9,9 @@ describe 'statsd::default' do
   cached(:upstart) do
     chef_run.template('/etc/init/statsd.conf')
   end
+  cached(:git) do
+    chef_run.git(node['statsd']['path'])
+  end
 
   %w(nodejs git).each do |recipe|
     it "includes the #{recipe} recipe" do
@@ -24,8 +27,12 @@ describe 'statsd::default' do
     )
   end
 
-  it 'installs statsd dependencies' do
-    expect(chef_run).to run_execute('npm install -d') \
+  it 'notifies to install statsd dependencies' do
+    expect(git).to notify('execute[install StatsD dependencies]').to(:run).immediately
+  end
+
+  it 'only installs statsd dependencies if git notified' do
+    expect(chef_run).to_not run_execute('npm install -d') \
     .with(cwd: node['statsd']['path'])
   end
 

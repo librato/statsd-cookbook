@@ -24,9 +24,11 @@ git node['statsd']['path'] do
   repository node['statsd']['repo']
   revision node['statsd']['version']
   action :sync
+  notifies :run, 'execute[install StatsD dependencies]', :immediately
 end
 
-execute 'install dependencies' do
+execute 'install StatsD dependencies' do
   command 'npm install -d'
   cwd node['statsd']['path']
+  action :nothing
 end

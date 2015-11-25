@@ -93,5 +93,12 @@ describe 'statsd::default' do
       group: node['statsd']['group']
     )
   end
-  
+
+  it 'creates a pid directory for statsd' do
+    expect(chef_run).to create_directory(node['statsd']['pid_dir']) \
+    .with(
+      owner: node['statsd']['user'],
+      group: node['statsd']['group']
+    )
+  end
 end

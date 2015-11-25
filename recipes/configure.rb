@@ -82,5 +82,11 @@ file node['statsd']['log_file'] do
   action :create_if_missing
 end
 
+directory node['statsd']['pid_dir'] do
+  owner node['statsd']['user']
+  group node['statsd']['group']
+  mode 0755
+end
+
 # include the service resource
 include_recipe "statsd::service"

@@ -22,8 +22,8 @@ default['statsd']['version'] = 'v0.7.2'
 
 default['statsd']['log_file'] = '/var/log/statsd.log'
 default['statsd']['config_dir'] = '/etc/statsd'
-
-default['statsd']['pid_file'] = '/var/run/statsd.pid'
+default['statsd']['pid_dir'] = '/var/run/statsd'
+default['statsd']['pid_file'] = '/var/run/statsd/statsd.pid'
 default['statsd']['path'] = '/usr/share/statsd'
 
 default['statsd']['user'] = 'statsd'

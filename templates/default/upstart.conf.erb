@@ -9,25 +9,28 @@ author      "Librato"
 
 start on (local-filesystems and net-device-up IFACE!=lo)
 
-setuid <%= node['statsd']['user'] %>
-setgid <%= node['statsd']['group'] %>
-
 respawn
 respawn limit 10 5
 
-chdir <%= node['statsd']['path'] %>
-
 pre-start script
+
+    if [ ! -d <%= node['statsd']['pid_dir'] %> ]; then
+        mkdir -p <%= node['statsd']['pid_dir'] %>
+        chmod 0755 <%= node['statsd']['pid_dir'] %>
+    fi
+    
     NODE_BIN=$(which nodejs || which node)
     [ -n $NODE_BIN ] || { stop; exit 0; }
+
 end script
 
 post-stop script
     rm -f <%= node['statsd']['pid_file'] %>
 end script
 
+
 script
-    echo $$ > <%= node['statsd']['pid_file'] %>
     NODE_BIN=$(which nodejs || which node)
-    $NODE_BIN stats.js <%= node['statsd']['config_dir'] %>/config.js 2>&1 >> <%= node['statsd']['log_file'] %>
+
+    start-stop-daemon --start --make-pidfile --pidfile <%= node['statsd']['pid_file'] %> --chuid <%= node['statsd']['user'] %> --exec $NODE_BIN <%= node['statsd']['path'] %>/stats.js <%= node['statsd']['config_dir'] %>/config.js 2>&1 >> <%= node['statsd']['log_file'] %>
 end script

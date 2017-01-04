@@ -27,7 +27,12 @@ default['statsd']['pid_file'] = '/var/run/statsd/statsd.pid'
 default['statsd']['path'] = '/usr/share/statsd'
 
 # Default path for the nodejs cookbook.
-default['statsd']['node_bin'] = '/usr/bin/nodejs'
+case node['platform_family']
+when 'debian'
+  default['statsd']['node_bin'] = '/usr/bin/nodejs'
+when 'rhel'
+  default['statsd']['node_bin'] = '/bin/node'
+end
 
 default['statsd']['user'] = 'statsd'
 default['statsd']['group'] = 'statsd'

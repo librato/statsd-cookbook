@@ -1,0 +1,14 @@
+[Unit]
+Description=Monitoring daemon, that aggregates events received by udp in 10 second intervals
+Documentation=https://github.com/etsy/statsd/
+Wants=network.target
+
+[Service]
+Type=simple
+User=<%= node['statsd']['user'] %>
+Group=<%= node['statsd']['group'] %>
+ExecStart=<%= node['statsd']['node_bin'] %> <%= node['statsd']['path'] %>/stats.js <%= node['statsd']['config_dir'] %>/config.js
+PIDFile=<%= node['statsd']['pid_file'] %>
+
+[Install]
+WantedBy=multi-user.target

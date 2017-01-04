@@ -5,12 +5,20 @@ driver:
 provisioner:
   name: chef_solo
 
+verifier:
+  name: inspec
+
 platforms:
+  - name: ubuntu-16.04
   - name: ubuntu-12.04
   - name: centos-6.5
 
 suites:
   - name: default
     run_list:
+      - recipe[nodejs::npm]
       - recipe[statsd::default]
     attributes:
+      nodejs:
+        repo: https://deb.nodesource.com/node_6.x
+        key: https://deb.nodesource.com/gpgkey/nodesource.gpg.key

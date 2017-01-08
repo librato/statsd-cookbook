@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'berkshelf', '~> 3.0'
-gem 'chef'
+gem 'berkshelf'
 gem 'chefspec'
 gem 'test-kitchen'
 gem 'kitchen-vagrant'
+gem 'kitchen-inspec'

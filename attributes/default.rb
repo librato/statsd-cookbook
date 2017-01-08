@@ -26,6 +26,14 @@ default['statsd']['pid_dir'] = '/var/run/statsd'
 default['statsd']['pid_file'] = '/var/run/statsd/statsd.pid'
 default['statsd']['path'] = '/usr/share/statsd'
 
+# Default path for the nodejs cookbook.
+case node['platform_family']
+when 'debian'
+  default['statsd']['node_bin'] = '/usr/bin/nodejs'
+when 'rhel'
+  default['statsd']['node_bin'] = '/bin/node'
+end
+
 default['statsd']['user'] = 'statsd'
 default['statsd']['group'] = 'statsd'
 
@@ -47,6 +55,12 @@ default['statsd']['service'] = {
   enable: true,
   start: true
 }
+
+if node.has_key?('init_package') && node['init_package'] == 'systemd'
+  default['statsd']['init_style'] = 'systemd'
+else
+  default['statsd']['init_style'] = 'upstart'
+end
 
 #
 # Add all NPM module backends here. Each backend should be a

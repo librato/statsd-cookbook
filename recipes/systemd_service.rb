@@ -17,18 +17,13 @@
 # limitations under the License.
 #
 
-service_status = node['statsd']['service'].map do |a, s|
-  case a.to_s
-  when 'enable'
-    s == false ? :disable : :enable
-  when 'start'
-    s == false ? :stop : :start
-  end
+template '/etc/systemd/system/statsd.service' do
+  source 'systemd.service.erb'
+  action :create
 end
 
-# Set up our service.
-include_recipe "statsd::#{node['statsd']['init_style']}_service"
-
 service 'statsd' do
-  action service_status
+  provider Chef::Provider::Service::Systemd
+  supports restart: true, start: true, stop: true
+  action :nothing
 end

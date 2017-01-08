@@ -17,18 +17,19 @@
 # limitations under the License.
 #
 
-service_status = node['statsd']['service'].map do |a, s|
-  case a.to_s
-  when 'enable'
-    s == false ? :disable : :enable
-  when 'start'
-    s == false ? :stop : :start
-  end
+# Install our init script.
+template '/etc/init/statsd.conf' do
+  source 'upstart.conf.erb'
+  mode 0644
+  notifies :restart, 'service[statsd]', :delayed
 end
 
 # Set up our service.
-include_recipe "statsd::#{node['statsd']['init_style']}_service"
-
 service 'statsd' do
-  action service_status
+  provider Chef::Provider::Service::Upstart
+  restart_command 'stop statsd; start statsd'
+  start_command 'start statsd'
+  stop_command 'stop statsd'
+  supports restart: true, start: true, stop: true
+  action :nothing
 end

@@ -29,6 +29,11 @@ if node['statsd']['console_enabled']
   backends << './backends/console'
 end
 
+if node['statsd']['repeater_enabled']
+  backends << './backends/repeater'
+end
+
+
 node['statsd']['backends'].each do |k, v|
   if v
     name = "#{k}@#{v}"

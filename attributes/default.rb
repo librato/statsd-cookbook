@@ -51,6 +51,9 @@ default['statsd']['graphite_host'] = 'localhost'
 # Enable console output
 default['statsd']['console_enabled'] = false
 
+# Enable repeater
+default['statsd']['repeater_enabled'] = false
+
 default['statsd']['service'] = {
   enable: true,
   start: true

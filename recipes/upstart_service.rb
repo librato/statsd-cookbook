@@ -17,11 +17,20 @@
 # limitations under the License.
 #
 
+service_status = node['statsd']['service'].map do |a, s|
+  case a.to_s
+  when 'enable'
+    s == false ? :disable : :enable
+  when 'start'
+    s == false ? :stop : :start
+  end
+end
+
 # Install our init script.
 template '/etc/init/statsd.conf' do
   source 'upstart.conf.erb'
   mode 0644
-  notifies :restart, 'service[statsd]', :delayed
+  notifies :restart, 'service[statsd]', :delayed unless service_status.any? { |x| [:disable, :stop].include?(x) }
 end
 
 # Set up our service.

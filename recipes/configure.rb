@@ -19,6 +19,15 @@
 
 require 'chef/mixin/deep_merge'
 
+service_status = node['statsd']['service'].map do |a, s|
+  case a.to_s
+  when 'enable'
+    s == false ? :disable : :enable
+  when 'start'
+    s == false ? :stop : :start
+  end
+end
+
 backends = []
 
 if node['statsd']['graphite_enabled']
@@ -73,7 +82,7 @@ template "#{node['statsd']['config_dir']}/config.js" do
 
   Chef::Mixin::DeepMerge.deep_merge!(node['statsd']['extra_config'], config_hash)
   variables config_hash: config_hash
-  notifies :restart, 'service[statsd]', :delayed
+  notifies :restart, 'service[statsd]', :delayed unless service_status.any? { |x| [:disable, :stop].include?(x) }
 end
 
 file node['statsd']['log_file'] do

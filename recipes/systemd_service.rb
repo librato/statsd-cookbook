@@ -17,9 +17,19 @@
 # limitations under the License.
 #
 
+service_status = node['statsd']['service'].map do |a, s|
+  case a.to_s
+  when 'enable'
+    s == false ? :disable : :enable
+  when 'start'
+    s == false ? :stop : :start
+  end
+end
+
 template '/etc/systemd/system/statsd.service' do
   source 'systemd.service.erb'
   action :create
+  notifies :restart, 'service[statsd]', :delayed unless service_status.any? { |x| [:disable, :stop].include?(x) }
 end
 
 service 'statsd' do
